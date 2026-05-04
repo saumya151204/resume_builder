@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    .dark-blue {
+        color: #0b3d91;  /* dark professional blue */
+        font-weight: 800;
+        text-align: center;
+    }
+
+    .subtitle {
+        color: #0b3d91;
+        text-align: center;
+        font-size: 14px;
+        margin-bottom: 20px;
+        font-weight: 600;
+        opacity: 0.85;
+    }
+
+    .form-box label {
+        font-weight: 700;
+        color: #0b3d91;   /* dark blue labels */
+        margin-top: 10px;
+    }
+
+    .form-box input {
+        border-radius: 10px;
+        border: 1px solid #cfd8e3;
+        padding: 10px;
+        width: 100%;
+        font-weight: 500;
+    }
+
+    .form-box input:focus {
+        border-color: #0b3d91;
+        box-shadow: 0 0 0 3px rgba(11, 61, 145, 0.25);
+        outline: none;
+    }
+
+    .btn-custom {
+        background: #0b3d91;
+        color: #fff;
+        font-weight: 600;
+        border-radius: 10px;
+        padding: 10px;
+        border: none;
+        transition: 0.3s;
+    }
+
+    .btn-custom:hover {
+        background: #072a66;
+        transform: translateY(-1px);
+    }
+</style>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+
+            <div class="card resume-card p-4">
+
+                <h3 class="dark-blue">Welcome!</h3>
+                <p class="subtitle">Create your account to start building your resume</p>
+
+                <form method="post" class="form-box">
+                    {% csrf_token %}
+
+                    {{ form.as_p }}
+
+                    <button type="submit" class="btn btn-custom w-100 mt-2">
+                        Create Account →
+                    </button>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

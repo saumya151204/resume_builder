@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial;
+            margin: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        p {
+            text-align: center;
+            margin: 2px;
+        }
+
+        hr {
+            margin: 15px 0;
+        }
+
+        h3 {
+            margin-top: 15px;
+        }
+
+        ul {
+            margin-left: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>{{ personal.full_name }}</h1>
+<p>{{ personal.email }} | {{ personal.phone }}</p>
+
+<hr>
+
+<h3>Profile</h3>
+<p>{{ personal.summary }}</p>
+
+<h3>Education</h3>
+{% for e in education %}
+<p><b>{{ e.degree }}</b> - {{ e.college }} ({{ e.year }})</p>
+{% endfor %}
+
+<h3>Experience</h3>
+{% for ex in experience %}
+<p><b>{{ ex.job_title }}</b> - {{ ex.company }}</p>
+<p>{{ ex.description }}</p>
+{% endfor %}
+
+<h3>Skills</h3>
+<ul>
+{% for s in skills %}
+<li>{{ s.name }}</li>
+{% endfor %}
+</ul>
+
+<h3>Projects</h3>
+{% for p in projects %}
+<p><b>{{ p.title }}</b></p>
+<p>{{ p.description }}</p>
+{% endfor %}
+{% if not is_pdf %}
+<a href="{% url 'download_pdf' resume.id %}">
+    Download PDF
+</a>
+{% endif %}
+</body>
+</html>

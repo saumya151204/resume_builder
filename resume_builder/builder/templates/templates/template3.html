@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial;
+            margin: 30px;
+            color: #333;
+        }
+
+        h1 {
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+
+        h2 {
+            color: #3498db;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 3px;
+            margin-top: 20px;
+        }
+
+        .section {
+            margin-bottom: 15px;
+        }
+
+        .item {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>{{ personal.full_name }}</h1>
+<p>{{ personal.email }} | {{ personal.phone }}</p>
+
+<div class="section">
+    <h2>Profile</h2>
+    <p>{{ personal.summary }}</p>
+</div>
+
+<div class="section">
+    <h2>Education</h2>
+    {% for e in education %}
+    <div class="item">
+        <b>{{ e.degree }}</b><br>
+        {{ e.college }} ({{ e.year }})
+    </div>
+    {% endfor %}
+</div>
+
+<div class="section">
+    <h2>Experience</h2>
+    {% for ex in experience %}
+    <div class="item">
+        <b>{{ ex.job_title }}</b> - {{ ex.company }}<br>
+        {{ ex.description }}
+    </div>
+    {% endfor %}
+</div>
+
+<div class="section">
+    <h2>Skills</h2>
+    <ul>
+        {% for s in skills %}
+        <li>{{ s.name }}</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="section">
+    <h2>Projects</h2>
+    {% for p in projects %}
+    <div class="item">
+        <b>{{ p.title }}</b><br>
+        {{ p.description }}
+    </div>
+    {% endfor %}
+</div>
+{% if not is_pdf %}
+<a href="{% url 'download_pdf' resume.id %}">
+    Download PDF
+</a>
+{% endif %}
+</body>
+</html>

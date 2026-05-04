@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Dashboard</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+}
+
+/* Navbar */
+.navbar {
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    padding: 15px 30px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar h2 {
+    margin: 0;
+}
+
+.logout-btn {
+    background: white;
+    color: #007bff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+/* Container */
+.container {
+    padding: 30px;
+}
+
+/* Create Button */
+.create-btn {
+    background: white;
+    color: #007bff;
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.create-btn:hover {
+    background: #007bff;
+    color: white;
+}
+
+/* Card */
+.card {
+    background: white;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* Actions */
+.actions {
+    margin-top: 15px;
+}
+
+/* Buttons */
+.btn {
+    padding: 8px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: white;
+    font-size: 14px;
+    margin-right: 5px;
+    display: inline-block;
+    transition: 0.3s;
+}
+
+.btn-preview { background: #3498db; }
+.btn-download { background: #9b59b6; }
+.btn-edit { background: #f39c12; }
+.btn-delete { background: #e74c3c; }
+
+.btn:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+
+<div class="navbar">
+    <h2>My Dashboard</h2>
+
+    <form action="{% url 'logout' %}" method="POST">
+        {% csrf_token %}
+        <button class="logout-btn">Logout</button>
+    </form>
+</div>
+
+<div class="container">
+
+    <a href="/create/" class="create-btn">+ Create Resume</a>
+
+    {% for resume in resumes %}
+        <div class="card">
+            <h3>{{ resume.title }}</h3>
+
+            <div class="actions">
+                <a href="/{{ resume.id }}/preview/" class="btn btn-preview" onclick="showLoader(); return true;">
+                    Preview
+                </a>
+
+                <a href="/{{ resume.id }}/pdf/" class="btn btn-download" onclick="downloadToast()">
+                    Download
+                </a>
+
+                <a href="/{{ resume.id }}/personal/" class="btn btn-edit" onclick="editAlert()">
+                    Edit
+                </a>
+
+                <button onclick="confirmDelete({{ resume.id }})" class="btn btn-delete">
+                    Delete
+                </button>
+            </div>
+        </div>
+    {% empty %}
+        <p style="color:white; margin-top:20px;">No resumes yet</p>
+    {% endfor %}
+
+</div>
+
+<script>
+function showLoader() {
+    Swal.fire({
+        title: 'Loading Preview...',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+}
+
+function downloadToast() {
+    Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'success',
+        title: 'Download started!',
+        showConfirmButton: false,
+        timer: 2000
+    });
+}
+
+function editAlert() {
+    Swal.fire({
+        title: 'Opening Editor...',
+        timer: 1000,
+        showConfirmButton: false
+    });
+}
+
+function confirmDelete(id) {
+    Swal.fire({
+        title: 'Delete Resume?',
+        text: "This cannot be undone!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#e74c3c',
+        cancelButtonColor: '#aaa',
+        confirmButtonText: 'Yes, Delete'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = `/${id}/delete/`;
+        }
+    });
+}
+</script>
+
+</body>
+</html>

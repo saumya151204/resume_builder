@@ -1,0 +1,139 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Select Template</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+}
+
+/* Container */
+.container {
+    padding: 40px;
+}
+
+/* Heading */
+h2 {
+    text-align: center;
+    color: white;
+    margin-bottom: 40px;
+}
+
+/* Templates Grid */
+.templates {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+/* Card */
+.card {
+    width: 280px;
+    background: white;
+    border-radius: 15px;
+    padding: 15px;
+    text-align: center;
+    transition: 0.3s;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    position: relative;
+}
+
+.card:hover {
+    transform: translateY(-10px) scale(1.03);
+}
+
+/* Image */
+.card img {
+    width: 100%;
+    max-height: 350px;
+    object-fit: contain;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+/* Title */
+h5 {
+    margin: 15px 0;
+    font-size: 18px;
+}
+
+/* Button */
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    color: white;
+}
+
+/* Different Buttons */
+.btn1 { background: #3498db; }
+.btn2 { background: #2ecc71; }
+.btn3 { background: #34495e; }
+
+button:hover {
+    opacity: 0.9;
+    transform: scale(1.03);
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Choose Your Resume Template</h2>
+
+    <div class="templates">
+
+        <!-- Template 1 -->
+        <div class="card">
+            <img src="{% static 'images/template1.png' %}">
+            <h5>Basic ATS</h5>
+
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="template" value="template1">
+                <button type="submit" class="btn1">Select</button>
+            </form>
+        </div>
+
+        <!-- Template 2 -->
+        <div class="card">
+            <img src="{% static 'images/template2.png' %}">
+            <h5>Clean Classic</h5>
+
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="template" value="template2">
+                <button type="submit" class="btn2">Select</button>
+            </form>
+        </div>
+
+        <!-- Template 3 -->
+        <div class="card">
+            <img src="{% static 'images/template3.png' %}">
+            <h5>Modern ATS</h5>
+
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="template" value="template3">
+                <button type="submit" class="btn3">Select</button>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

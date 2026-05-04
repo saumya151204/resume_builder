@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+body {
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+}
+
+/* Container Center */
+.mode-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+
+/* Card */
+.mode-card {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    width: 350px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+/* Title */
+.mode-card h2 {
+    margin-bottom: 25px;
+    color: #333;
+}
+
+/* Buttons */
+.mode-btn {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: none;
+    background: #007bff;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.mode-btn:hover {
+    background: #0056b3;
+}
+</style>
+
+<div class="mode-container">
+
+    <div class="mode-card">
+
+        <h2>Select Mode</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <button class="mode-btn" name="mode" value="simple">
+                Simple Form
+            </button>
+
+            <button class="mode-btn" name="mode" value="step">
+                Step by Step
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
