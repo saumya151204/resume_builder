@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    body {
+        background: linear-gradient(135deg, #4facfe, #00f2fe);
+        min-height: 100vh;
+    }
+
+    .resume-card {
+        background: #ffffff;
+        border-radius: 18px;
+        box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+        border: none;
+    }
+
+    .title {
+        color: #000;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 25px;
+    }
+
+    /* INPUT STYLE */
+    .resume-card input,
+    .resume-card select,
+    .resume-card textarea {
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 10px;
+        width: 100%;
+        color: #000;
+        font-weight: 500;
+        transition: 0.2s;
+        margin-bottom: 10px;
+    }
+
+    .resume-card input:focus,
+    .resume-card select:focus,
+    .resume-card textarea:focus {
+        outline: none;
+        border-color: #4facfe;
+        box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.25);
+    }
+
+    .resume-card label {
+        font-weight: 500;
+        color: #333;
+        margin-top: 10px;
+    }
+
+    .project-section {
+        background: #f9fbff;
+        border-radius: 12px;
+        padding: 15px;
+        margin-bottom: 15px;
+        border: 1px solid #e6e6e6;
+    }
+
+    hr {
+        border: none;
+        height: 1px;
+        background: #ddd;
+        margin: 15px 0;
+    }
+
+    .btn-custom {
+        background: #28a745; 
+        color: #fff;
+        font-weight: 600;
+        border-radius: 10px;
+        padding: 10px;
+        border: none;
+        transition: 0.3s;
+    }
+
+    .btn-custom:hover {
+        background: #1f7f35;
+        transform: translateY(-1px);
+    }
+</style>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-7">
+
+            <div class="card resume-card p-4">
+
+                <h3 class="title">Projects</h3>
+
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ formset.management_form }}
+
+                    {% for form in formset %}
+                        <div class="project-section">
+                            {{ form.as_p }}
+                        </div>
+                    {% endfor %}
+
+                    <button type="submit" class="btn btn-custom w-100 mt-3">
+                        Finish →
+                    </button>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
