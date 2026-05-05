@@ -1,94 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Login</title>
+    <meta charset="UTF-8">
+    <title>Login —  Resume Builder</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Fraunces:wght@900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: #0a0a1a;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
 
-<style>
-body {
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #4facfe, #00f2fe);
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+        .bg-orbs { position: fixed; inset: 0; z-index: 0; }
+        .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.3; }
+        .orb-1 { width: 400px; height: 400px; background: #5c6ef8; top: -100px; left: -100px; }
+        .orb-2 { width: 300px; height: 300px; background: #ff6b6b; bottom: -80px; right: -80px; }
 
-/* Card */
-.login-box {
-    background: white;
-    padding: 40px;
-    border-radius: 12px;
-    width: 350px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    text-align: center;
-}
+        .login-card {
+            position: relative;
+            z-index: 10;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 24px;
+            padding: 48px 44px;
+            width: 100%;
+            max-width: 420px;
+            backdrop-filter: blur(20px);
+        }
 
-.login-box h2 {
-    margin-bottom: 20px;
-    color: #333;
-}
+        .brand {
+            font-family: 'Fraunces', serif;
+            font-size: 22px;
+            font-weight: 900;
+            color: white;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 32px;
+        }
 
-/* Inputs */
-input {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-}
+        .brand span { color: #ff6b6b; }
 
-input:focus {
-    outline: none;
-    border-color: #4facfe;
-}
+        h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 6px;
+        }
 
-/* Button */
-button {
-    width: 100%;
-    padding: 12px;
-    background: #4facfe;
-    border: none;
-    border-radius: 8px;
-    color: white;
-    font-weight: 600;
-    margin-top: 10px;
-    cursor: pointer;
-    transition: 0.3s;
-}
+        .subtitle {
+            color: rgba(255,255,255,0.45);
+            font-size: 14px;
+            margin-bottom: 32px;
+        }
 
-button:hover {
-    background: #007bff;
-}
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.55);
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-bottom: 6px;
+        }
 
-p {
-    margin-top: 15px;
-}
+        input {
+            width: 100%;
+            background: rgba(255,255,255,0.07);
+            border: 1.5px solid rgba(255,255,255,0.12);
+            border-radius: 10px;
+            padding: 12px 14px;
+            color: white;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            margin-bottom: 18px;
+            transition: 0.2s;
+        }
 
-a {
-    color: #007bff;
-    text-decoration: none;
-}
-</style>
+        input:focus {
+            outline: none;
+            border-color: #5c6ef8;
+            background: rgba(92,110,248,0.08);
+            box-shadow: 0 0 0 3px rgba(92,110,248,0.15);
+        }
+
+        input::placeholder { color: rgba(255,255,255,0.25); }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: #5c6ef8;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: 'DM Sans', sans-serif;
+            margin-top: 4px;
+        }
+
+        .btn-login:hover {
+            background: #3a4ce0;
+            box-shadow: 0 8px 24px rgba(92,110,248,0.4);
+            transform: translateY(-1px);
+        }
+
+        .footer-text {
+            text-align: center;
+            color: rgba(255,255,255,0.4);
+            font-size: 13px;
+            margin-top: 24px;
+        }
+
+        .footer-text a {
+            color: #a5b4fc;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer-text a:hover { color: white; }
+    </style>
 </head>
-
 <body>
 
-<div class="login-box">
-    <h2>Login</h2>
+<div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+</div>
+
+<div class="login-card">
+    <a href="/" class="brand">Resume<span>.</span>io</a>
+    <h2>Welcome back</h2>
+    <p class="subtitle">Sign in to manage your resumes</p>
 
     <form method="POST">
         {% csrf_token %}
+        <label>Username</label>
         {{ form.username }}
+        <label>Password</label>
         {{ form.password }}
-
-        <button type="submit">Login</button>
+        <button type="submit" class="btn-login">Sign In →</button>
     </form>
 
-    <p>Don't have an account? <a href="#">Sign up</a></p>
+    <p class="footer-text">Don't have an account? <a href="/register/">Create one free</a></p>
 </div>
 
 </body>
