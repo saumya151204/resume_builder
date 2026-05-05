@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,7 +26,7 @@ SECRET_KEY = 'django-insecure-&w(we#8)h9@p3w0j1jk_t7y-$+e-!3i&+rq$5b8un+9)jl10_r
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -48,8 +49,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
 
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+]    
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 ROOT_URLCONF = 'resume_builder.urls'
 
 TEMPLATES = [
