@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Outfit', Arial, sans-serif;
+            background: white;
+            color: #1e293b;
+            font-size: 13px;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* SIDEBAR + MAIN LAYOUT */
+        .layout { display: flex; min-height: 100vh; }
+
+        .sidebar {
+            width: 240px;
+            min-width: 240px;
+            background: #1e3a5f;
+            color: white;
+            padding: 36px 24px;
+        }
+
+        .main { flex: 1; padding: 36px 32px; }
+
+        /* NAME */
+        .name {
+            font-size: 22px;
+            font-weight: 700;
+            color: white;
+            line-height: 1.2;
+            margin-bottom: 4px;
+        }
+
+        .job-title {
+            font-size: 12px;
+            color: #93c5fd;
+            font-weight: 400;
+            margin-bottom: 24px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* SIDEBAR SECTIONS */
+        .sidebar-section { margin-bottom: 24px; }
+
+        .sidebar-title {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #93c5fd;
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(147,197,253,0.3);
+            padding-bottom: 4px;
+        }
+
+        .contact-item {
+            font-size: 11px;
+            color: #cbd5e1;
+            margin-bottom: 6px;
+            word-break: break-all;
+        }
+
+        .skill-bar-wrap { margin-bottom: 6px; }
+        .skill-label { font-size: 11px; color: #e2e8f0; margin-bottom: 3px; }
+        .skill-bar { height: 4px; background: rgba(255,255,255,0.15); border-radius: 2px; }
+        .skill-fill { height: 4px; background: #3b82f6; border-radius: 2px; width: 80%; }
+
+        /* MAIN SECTIONS */
+        .section { margin-bottom: 24px; }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1e3a5f;
+            border-left: 4px solid #3b82f6;
+            padding-left: 10px;
+            margin-bottom: 12px;
+        }
+
+        /* SUMMARY */
+        .summary-text { color: #475569; font-size: 13px; }
+
+        /* EDUCATION */
+        .edu-item { margin-bottom: 10px; padding-left: 14px; border-left: 2px solid #e2e8f0; }
+        .edu-degree { font-weight: 600; font-size: 13px; color: #1e293b; }
+        .edu-school { font-size: 12px; color: #64748b; }
+        .edu-year { font-size: 11px; color: #3b82f6; font-weight: 600; }
+
+        /* EXPERIENCE */
+        .exp-item { margin-bottom: 14px; padding-left: 14px; border-left: 2px solid #e2e8f0; }
+        .exp-title { font-weight: 700; font-size: 13px; }
+        .exp-company-row { display: flex; justify-content: space-between; }
+        .exp-company { color: #3b82f6; font-size: 12px; font-weight: 600; }
+        .exp-duration { font-size: 11px; color: #94a3b8; }
+        .exp-desc { font-size: 12px; color: #475569; margin-top: 4px; }
+
+        /* PROJECTS */
+        .project-item { margin-bottom: 10px; }
+        .project-title { font-weight: 700; font-size: 13px; color: #1e293b; }
+        .project-desc { font-size: 12px; color: #475569; }
+
+        /* DOWNLOAD */
+        .download-bar {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: #1e3a5f;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .download-bar a {
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            background: #3b82f6;
+            padding: 10px 28px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <div class="name">{{ personal.full_name }}</div>
+        <div class="job-title">Resume</div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-title">Contact</div>
+            <div class="contact-item">✉ {{ personal.email }}</div>
+            <div class="contact-item">📞 {{ personal.phone }}</div>
+            {% if personal.linkedin %}<div class="contact-item">🔗 {{ personal.linkedin }}</div>{% endif %}
+            {% if personal.github %}<div class="contact-item">💻 {{ personal.github }}</div>{% endif %}
+        </div>
+
+        {% if skills %}
+        <div class="sidebar-section">
+            <div class="sidebar-title">Skills</div>
+            {% for s in skills %}
+            <div class="skill-bar-wrap">
+                <div class="skill-label">{{ s.name }}</div>
+                <div class="skill-bar"><div class="skill-fill"></div></div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+
+        {% if personal.summary %}
+        <div class="section">
+            <div class="section-title">Profile</div>
+            <p class="summary-text">{{ personal.summary }}</p>
+        </div>
+        {% endif %}
+
+        {% if experience %}
+        <div class="section">
+            <div class="section-title">Experience</div>
+            {% for ex in experience %}
+            <div class="exp-item">
+                <div class="exp-title">{{ ex.job_title }}</div>
+                <div class="exp-company-row">
+                    <span class="exp-company">{{ ex.company }}</span>
+                    <span class="exp-duration">{{ ex.duration }}</span>
+                </div>
+                <div class="exp-desc">{{ ex.description }}</div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if education %}
+        <div class="section">
+            <div class="section-title">Education</div>
+            {% for e in education %}
+            <div class="edu-item">
+                <div class="edu-degree">{{ e.degree }}</div>
+                <div class="edu-school">{{ e.college }}</div>
+                <div class="edu-year">{{ e.year }}</div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if projects %}
+        <div class="section">
+            <div class="section-title">Projects</div>
+            {% for p in projects %}
+            <div class="project-item">
+                <div class="project-title">▸ {{ p.title }}</div>
+                <div class="project-desc">{{ p.description }}</div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+
+{% if not is_pdf %}
+<div class="download-bar">
+    <a href="{% url 'download_pdf' resume.id %}">⬇ Download PDF</a>
+</div>
+<div style="height:60px;"></div>
+{% endif %}
+
+</body>
+</html>

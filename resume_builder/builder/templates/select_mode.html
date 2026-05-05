@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .mode-wrap {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 60vh;
+    }
+
+    .mode-container {
+        text-align: center;
+        max-width: 560px;
+        width: 100%;
+    }
+
+    .mode-container h2 {
+        font-family: 'Fraunces', serif;
+        font-size: 32px;
+        font-weight: 900;
+        color: #1a1a2e;
+        margin-bottom: 8px;
+    }
+
+    .mode-container p {
+        color: #6b7280;
+        font-size: 14px;
+        margin-bottom: 36px;
+    }
+
+    .mode-cards {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .mode-card {
+        background: white;
+        border: 2px solid #e8eaff;
+        border-radius: 20px;
+        padding: 32px 28px;
+        width: 240px;
+        cursor: pointer;
+        transition: 0.3s;
+        text-align: center;
+    }
+
+    .mode-card:hover {
+        border-color: #5c6ef8;
+        transform: translateY(-6px);
+        box-shadow: 0 12px 32px rgba(92,110,248,0.15);
+    }
+
+    .mode-emoji { font-size: 40px; margin-bottom: 14px; }
+
+    .mode-card h3 {
+        font-weight: 700;
+        font-size: 18px;
+        color: #1a1a2e;
+        margin-bottom: 8px;
+    }
+
+    .mode-card p {
+        font-size: 13px;
+        color: #9ca3af;
+        line-height: 1.6;
+        margin-bottom: 20px;
+    }
+
+    .mode-btn {
+        width: 100%;
+        padding: 11px;
+        border: none;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 14px;
+        cursor: pointer;
+        font-family: 'DM Sans', sans-serif;
+        transition: 0.3s;
+        color: white;
+    }
+
+    .btn-simple { background: #5c6ef8; }
+    .btn-simple:hover { background: #3a4ce0; }
+
+    .btn-step { background: #10b981; }
+    .btn-step:hover { background: #059669; }
+</style>
+
+<div class="mode-wrap">
+    <div class="mode-container">
+        <h2>How do you want to fill?</h2>
+        <p>Choose how you'd like to enter your resume details</p>
+
+        <div class="mode-cards">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mode-card">
+                    <div class="mode-emoji">📋</div>
+                    <h3>Simple Form</h3>
+                    <p>Fill everything in one long form. Best if you have all details ready.</p>
+                    <button class="mode-btn btn-simple" name="mode" value="simple">Simple Form</button>
+                </div>
+            </form>
+
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mode-card">
+                    <div class="mode-emoji">🪜</div>
+                    <h3>Step by Step</h3>
+                    <p>Go section by section at your own pace. Easier and less overwhelming.</p>
+                    <button class="mode-btn btn-step" name="mode" value="step">Step by Step</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
