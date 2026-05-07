@@ -1,8 +1,9 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login —  Resume Builder</title>
+    <title>Login — Resume Builder</title>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Fraunces:wght@900&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -12,9 +13,7 @@
             background: #0a0a1a;
             min-height: 100vh;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
+            flex-direction: column;
         }
 
         .bg-orbs { position: fixed; inset: 0; z-index: 0; }
@@ -22,9 +21,17 @@
         .orb-1 { width: 400px; height: 400px; background: #5c6ef8; top: -100px; left: -100px; }
         .orb-2 { width: 300px; height: 300px; background: #ff6b6b; bottom: -80px; right: -80px; }
 
-        .login-card {
+        .login-wrap {
             position: relative;
             z-index: 10;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .login-card {
             background: rgba(255,255,255,0.04);
             border: 1px solid rgba(255,255,255,0.12);
             border-radius: 24px;
@@ -34,98 +41,83 @@
             backdrop-filter: blur(20px);
         }
 
-        .brand {
-            font-family: 'Fraunces', serif;
-            font-size: 22px;
-            font-weight: 900;
-            color: white;
-            text-decoration: none;
-            display: block;
-            margin-bottom: 32px;
-        }
-
+        .brand { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 900; color: white; text-decoration: none; display: block; margin-bottom: 32px; }
         .brand span { color: #ff6b6b; }
 
-        h2 {
-            font-size: 28px;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 6px;
-        }
+        h2 { font-size: 28px; font-weight: 700; color: white; margin-bottom: 6px; }
+        .subtitle { color: rgba(255,255,255,0.45); font-size: 14px; margin-bottom: 32px; }
 
-        .subtitle {
-            color: rgba(255,255,255,0.45);
-            font-size: 14px;
-            margin-bottom: 32px;
-        }
+        label { display: block; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 6px; }
 
-        label {
-            display: block;
-            font-size: 12px;
-            font-weight: 600;
-            color: rgba(255,255,255,0.55);
-            text-transform: uppercase;
-            letter-spacing: 0.6px;
-            margin-bottom: 6px;
-        }
-
-        input {
-            width: 100%;
-            background: rgba(255,255,255,0.07);
-            border: 1.5px solid rgba(255,255,255,0.12);
-            border-radius: 10px;
-            padding: 12px 14px;
-            color: white;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 14px;
-            margin-bottom: 18px;
-            transition: 0.2s;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #5c6ef8;
-            background: rgba(92,110,248,0.08);
-            box-shadow: 0 0 0 3px rgba(92,110,248,0.15);
-        }
-
+        input { width: 100%; background: rgba(255,255,255,0.07); border: 1.5px solid rgba(255,255,255,0.12); border-radius: 10px; padding: 12px 14px; color: white; font-family: 'DM Sans', sans-serif; font-size: 14px; margin-bottom: 18px; transition: 0.2s; }
+        input:focus { outline: none; border-color: #5c6ef8; background: rgba(92,110,248,0.08); box-shadow: 0 0 0 3px rgba(92,110,248,0.15); }
         input::placeholder { color: rgba(255,255,255,0.25); }
 
-        .btn-login {
-            width: 100%;
-            padding: 14px;
-            background: #5c6ef8;
-            border: none;
-            border-radius: 10px;
-            color: white;
-            font-weight: 700;
-            font-size: 15px;
-            cursor: pointer;
-            transition: 0.3s;
-            font-family: 'DM Sans', sans-serif;
-            margin-top: 4px;
+        .btn-login { width: 100%; padding: 14px; background: #5c6ef8; border: none; border-radius: 10px; color: white; font-weight: 700; font-size: 15px; cursor: pointer; transition: 0.3s; font-family: 'DM Sans', sans-serif; margin-top: 4px; }
+        .btn-login:hover { background: #3a4ce0; box-shadow: 0 8px 24px rgba(92,110,248,0.4); transform: translateY(-1px); }
+
+        .footer-text { text-align: center; color: rgba(255,255,255,0.4); font-size: 13px; margin-top: 24px; }
+        .footer-text a { color: #a5b4fc; text-decoration: none; font-weight: 600; }
+
+        /* FOOTER */
+        .site-footer {
+            position: relative;
+            z-index: 10;
+            background: rgba(255,255,255,0.03);
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding: 32px 24px 20px;
         }
 
-        .btn-login:hover {
-            background: #3a4ce0;
-            box-shadow: 0 8px 24px rgba(92,110,248,0.4);
-            transform: translateY(-1px);
-        }
+        .footer-inner { max-width: 900px; margin: 0 auto; }
 
-        .footer-text {
+        .footer-heading {
             text-align: center;
-            color: rgba(255,255,255,0.4);
-            font-size: 13px;
-            margin-top: 24px;
-        }
-
-        .footer-text a {
+            font-family: 'Fraunces', serif;
+            font-size: 15px;
             color: #a5b4fc;
-            text-decoration: none;
-            font-weight: 600;
+            margin-bottom: 20px;
+            font-weight: 700;
         }
 
-        .footer-text a:hover { color: white; }
+        .footer-devs {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .dev-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 14px 18px;
+            min-width: 220px;
+        }
+
+        .dev-photo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid #5c6ef8;
+            background: #2d2d4e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .dev-photo img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+        .dev-name { font-weight: 700; font-size: 14px; color: white; margin-bottom: 3px; }
+        .dev-email { font-size: 11px; color: #a5b4fc; margin-bottom: 2px; }
+        .dev-roll { font-size: 11px; color: #475569; font-weight: 600; }
+
+        .footer-bottom { text-align: center; font-size: 12px; color: #334155; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 14px; }
     </style>
 </head>
 <body>
@@ -135,22 +127,55 @@
     <div class="orb orb-2"></div>
 </div>
 
-<div class="login-card">
-    <a href="/" class="brand">Resume<span>.</span>io</a>
-    <h2>Welcome back</h2>
-    <p class="subtitle">Sign in to manage your resumes</p>
-
-    <form method="POST">
-        {% csrf_token %}
-        <label>Username</label>
-        {{ form.username }}
-        <label>Password</label>
-        {{ form.password }}
-        <button type="submit" class="btn-login">Sign In →</button>
-    </form>
-
-    <p class="footer-text">Don't have an account? <a href="/register/">Create one free</a></p>
+<div class="login-wrap">
+    <div class="login-card">
+        <a href="/" class="brand">Resume Builder<span> </span></a>
+        <h2>Welcome back</h2>
+        <p class="subtitle">Sign in to manage your resumes</p>
+        <form method="POST">
+            {% csrf_token %}
+            <label>Username</label>
+            {{ form.username }}
+            <label>Password</label>
+            {{ form.password }}
+            <button type="submit" class="btn-login">Sign In →</button>
+        </form>
+        <p class="footer-text">Don't have an account? <a href="/register/">Create one free</a></p>
+    </div>
 </div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+    <div class="footer-inner">
+        <div class="footer-heading">This website has been developed by</div>
+        <div class="footer-devs">
+            <div class="dev-card">
+                <div class="dev-photo">
+                
+                    {% comment %} <img src="{% static 'images/saumya.jpg' %}"> {% endcomment %}
+                    <img src="{% static 'images/saumya.jpg' %}">
+                </div>
+                <div>
+                    <div class="dev-name">Saumya</div>
+                    <div class="dev-email">saumyakumari1512@gmail.com</div>
+                    <div class="dev-roll">Roll No: 235004</div>
+                </div>
+            </div>
+            <div class="dev-card">
+                <div class="dev-photo">
+                    <img src="{% static 'images/aditi.jpg' %}">
+                    {% comment %} <img src="{% static 'images/aditi.jpg' %}"> {% endcomment %}
+                </div>
+                <div>
+                    <div class="dev-name">Aditi Srivastava</div>
+                    <div class="dev-email">aditisrivastava051@gmail.com</div>
+                    <div class="dev-roll">Roll No: 235001</div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">© 2026 Resume Builder — All rights reserved</div>
+    </div>
+</footer>
 
 </body>
 </html>
