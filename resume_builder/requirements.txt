@@ -5,3 +5,4 @@ pillow==11.2.1
 reportlab==3.6.13
 xhtml2pdf==0.2.11
 PyMySQL==1.1.2
+ 
