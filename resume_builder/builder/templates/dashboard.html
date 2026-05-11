@@ -63,7 +63,18 @@
 {% endif %}
 
 <script>
-function showLoader() { Swal.fire({ title: 'Loading Preview...', allowOutsideClick: false, didOpen: () => Swal.showLoading() }); }
+function showLoader() {
+    Swal.fire({
+        title: 'Loading Preview...',
+        allowOutsideClick: false,
+        didOpen: () => Swal.showLoading()
+    });
+
+    // auto close after 3 sec 
+    setTimeout(() => {
+        Swal.close();
+    }, 3000);
+}
 function downloadToast() { Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'Download started!', showConfirmButton: false, timer: 2000 }); }
 function confirmDelete(id) {
     Swal.fire({ title: 'Delete this resume?', text: "This cannot be undone.", icon: 'warning', showCancelButton: true, confirmButtonColor: '#ef4444', cancelButtonColor: '#6b7280', confirmButtonText: 'Yes, Delete' })
