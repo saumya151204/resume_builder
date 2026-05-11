@@ -18,194 +18,76 @@
             margin: 0 auto;
         }
 
-        /* ── HEADER ── */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            padding-bottom: 18px;
-            margin-bottom: 24px;
-            border-bottom: 2px solid #111;
-        }
-
-        .header-left .name {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-size: 38px;
-            font-weight: 700;
-            color: #111;
-            letter-spacing: -0.5px;
-            line-height: 1.1;
-        }
-
-        .header-right {
-            text-align: right;
-            font-size: 12px;
-            color: #555;
-            line-height: 1.9;
-        }
-
+        .header { display: flex; justify-content: space-between; align-items: flex-end; padding-bottom: 18px; margin-bottom: 24px; border-bottom: 2px solid #111; }
+        .name { font-family: 'Playfair Display', Georgia, serif; font-size: 38px; font-weight: 700; color: #111; letter-spacing: -0.5px; line-height: 1.1; }
+        .header-right { text-align: right; font-size: 12px; color: #555; line-height: 1.9; }
         .header-right a { color: #555; text-decoration: none; }
 
-        /* ── SECTION ── */
         .section { margin-bottom: 22px; }
+        .section-title { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 2.5px; color: #111; border-bottom: 1px solid #111; padding-bottom: 4px; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .section-title::after { content: ''; flex: 1; height: 1px; background: #bbb; }
 
-        .section-title {
-            font-size: 10.5px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2.5px;
-            color: #111;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .section-title::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: #bbb;
-        }
-
-        /* ── SUMMARY ── */
         .summary { color: #444; font-size: 13px; font-weight: 300; line-height: 1.75; }
 
-        /* ── EDUCATION ── */
-        .edu-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 10px;
-        }
+        .edu-item { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+        .edu-degree { font-weight: 700; font-size: 13.5px; }
+        .edu-school { color: #555; font-size: 12.5px; font-weight: 300; }
+        .edu-year { font-size: 12px; color: #888; white-space: nowrap; margin-left: 16px; }
 
-        .edu-left .edu-degree {
-            font-weight: 700;
-            font-size: 13.5px;
-            color: #111;
-        }
-
-        .edu-left .edu-school {
-            font-size: 12.5px;
-            color: #555;
-            font-weight: 300;
-        }
-
-        .edu-year {
-            font-size: 12px;
-            color: #888;
-            white-space: nowrap;
-            margin-left: 16px;
-        }
-
-        /* ── EXPERIENCE ── */
         .exp-item { margin-bottom: 16px; }
+        .exp-top { display: flex; justify-content: space-between; align-items: baseline; }
+        .exp-title { font-weight: 700; font-size: 14px; }
+        .exp-duration { font-size: 12px; color: #888; }
+        .exp-company { font-size: 12.5px; color: #555; font-weight: 300; margin-bottom: 5px; }
+        .exp-desc { font-size: 12.5px; color: #444; font-weight: 300; line-height: 1.6; }
 
-        .exp-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-        }
+        .skills-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+        .skill-chip { background: #f4f4f4; border: 1px solid #ddd; color: #333; font-size: 11.5px; font-weight: 700; padding: 4px 13px; border-radius: 3px; }
 
-        .exp-title {
-            font-weight: 700;
-            font-size: 14px;
-            color: #111;
-        }
-
-        .exp-duration {
-            font-size: 12px;
-            color: #888;
-            white-space: nowrap;
-            margin-left: 16px;
-        }
-
-        .exp-company {
-            font-size: 12.5px;
-            color: #555;
-            font-weight: 300;
-            margin-bottom: 5px;
-        }
-
-        .exp-desc {
-            font-size: 12.5px;
-            color: #444;
-            font-weight: 300;
-            line-height: 1.6;
-        }
-
-        /* ── SKILLS ── */
-        .skills-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .skill-chip {
-            background: #f4f4f4;
-            border: 1px solid #ddd;
-            color: #333;
-            font-size: 11.5px;
-            font-weight: 700;
-            padding: 4px 13px;
-            border-radius: 3px;
-            letter-spacing: 0.3px;
-        }
-
-        /* ── PROJECTS ── */
         .project-item { margin-bottom: 12px; }
+        .project-title { font-weight: 700; font-size: 13.5px; margin-bottom: 3px; }
+        .project-desc { font-size: 12.5px; color: #444; font-weight: 300; line-height: 1.6; }
 
-        .project-title {
-            font-weight: 700;
-            font-size: 13.5px;
-            color: #111;
-            margin-bottom: 3px;
-        }
-
-        .project-desc {
-            font-size: 12.5px;
-            color: #444;
-            font-weight: 300;
-            line-height: 1.6;
-        }
-
-        /* ── DOWNLOAD BAR ── */
-        .download-bar {
+        .action-bar {
             position: fixed;
             bottom: 0; left: 0; right: 0;
-            background: #111;
-            padding: 14px;
-            text-align: center;
+            background: #1a1a2e;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            align-items: center;
         }
 
-        .download-bar a {
-            color: white;
+        .action-bar a, .action-bar button {
             text-decoration: none;
             font-weight: 700;
             font-size: 14px;
-            background: #333;
-            padding: 10px 32px;
-            border-radius: 6px;
-            letter-spacing: 0.5px;
+            padding: 10px 24px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-family: 'Lato', sans-serif;
         }
+
+        .btn-dashboard { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.3) !important; }
+        .btn-download { background: #5c6ef8; color: white; }
     </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <div class="header">
-    <div class="header-left">
+    <div>
         <div class="name">{{ personal.full_name }}</div>
     </div>
     <div class="header-right">
         <div>{{ personal.email }}</div>
         <div>{{ personal.phone }}</div>
-        {% if personal.linkedin %}<div>{{ personal.linkedin }}</div>{% endif %}
-        {% if personal.github %}<div>{{ personal.github }}</div>{% endif %}
+        {% if personal.linkedin %}<div><a href="{{ personal.linkedin }}">{{ personal.linkedin }}</a></div>{% endif %}
+        {% if personal.github %}<div><a href="{{ personal.github }}">{{ personal.github }}</a></div>{% endif %}
     </div>
 </div>
 
-<!-- SUMMARY -->
 {% if personal.summary %}
 <div class="section">
     <div class="section-title">Professional Summary</div>
@@ -213,7 +95,6 @@
 </div>
 {% endif %}
 
-<!-- EXPERIENCE -->
 {% if experience %}
 <div class="section">
     <div class="section-title">Experience</div>
@@ -230,13 +111,12 @@
 </div>
 {% endif %}
 
-<!-- EDUCATION -->
 {% if education %}
 <div class="section">
     <div class="section-title">Education</div>
     {% for e in education %}
     <div class="edu-item">
-        <div class="edu-left">
+        <div>
             <div class="edu-degree">{{ e.degree }}</div>
             <div class="edu-school">{{ e.college }}</div>
         </div>
@@ -246,7 +126,6 @@
 </div>
 {% endif %}
 
-<!-- SKILLS -->
 {% if skills %}
 <div class="section">
     <div class="section-title">Skills</div>
@@ -258,7 +137,6 @@
 </div>
 {% endif %}
 
-<!-- PROJECTS -->
 {% if projects %}
 <div class="section">
     <div class="section-title">Projects</div>
@@ -272,8 +150,9 @@
 {% endif %}
 
 {% if not is_pdf %}
-<div class="download-bar">
-    <a href="{% url 'download_pdf' resume.id %}">⬇ Download PDF</a>
+<div class="action-bar">
+    <a href="/dashboard/" class="btn-dashboard">← Back to Dashboard</a>
+    <a href="{% url 'download_pdf' resume.id %}" class="btn-download">⬇ Download PDF</a>
 </div>
 <div style="height:60px;"></div>
 {% endif %}

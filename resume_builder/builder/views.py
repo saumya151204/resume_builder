@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponse
 from django.template.loader import get_template
+from django.contrib import messages
 from xhtml2pdf import pisa
 from .models import Resume, PersonalInfo, Education, Experience, Skill, Project
 
@@ -34,6 +35,7 @@ def register(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Account created successfully! Please login.')
             return redirect('login')
     return render(request, 'register.html', {'form': form})
 
@@ -50,10 +52,7 @@ def dashboard(request):
 
 @login_required
 def create_resume(request):
-    resume = Resume.objects.create(
-        user=request.user,
-        title="My Resume"
-    )
+    resume = Resume.objects.create(user=request.user, title="My Resume")
     return redirect('select_template', resume_id=resume.id)
 
 

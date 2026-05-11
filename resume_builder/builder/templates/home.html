@@ -1,159 +1,47 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resume Builder — Build Your Dream Resume</title>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Fraunces:ital,wght@0,900;1,700&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background: #0a0a1a;
-            color: white;
-            min-height: 100vh;
-            overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-        }
+{% block content %}
+<style>
+    body { background: #0a0a1a !important; }
+    .main-nav { background: rgba(0,0,0,0.5) !important; backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.08) !important; }
+    .nav-brand { color: white !important; }
+    .nav-links a { color: rgba(255,255,255,0.7) !important; }
+    .nav-logout-btn { color: rgba(255,255,255,0.7) !important; }
+    .main-content { background: #0a0a1a; }
+    .py-5 { padding: 0 !important; }
 
-        .bg-orbs { position: fixed; inset: 0; z-index: 0; overflow: hidden; }
-        .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.35; animation: float 8s ease-in-out infinite; }
-        .orb-1 { width: 500px; height: 500px; background: #5c6ef8; top: -100px; left: -100px; animation-delay: 0s; }
-        .orb-2 { width: 400px; height: 400px; background: #ff6b6b; bottom: -100px; right: -100px; animation-delay: 3s; }
-        .orb-3 { width: 300px; height: 300px; background: #00d2ff; top: 40%; left: 50%; animation-delay: 1.5s; }
+    .bg-orbs { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+    .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.35; animation: float 8s ease-in-out infinite; }
+    .orb-1 { width: 500px; height: 500px; background: #5c6ef8; top: -100px; left: -100px; }
+    .orb-2 { width: 400px; height: 400px; background: #ff6b6b; bottom: -100px; right: -100px; animation-delay: 3s; }
+    .orb-3 { width: 300px; height: 300px; background: #00d2ff; top: 40%; left: 50%; animation-delay: 1.5s; }
+    @keyframes float { 0%,100%{transform:translateY(0) scale(1)} 50%{transform:translateY(-30px) scale(1.05)} }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) scale(1); }
-            50% { transform: translateY(-30px) scale(1.05); }
-        }
+    .hero { position: relative; z-index: 5; text-align: center; padding: 100px 20px 60px; color: white; }
+    .badge { display: inline-block; background: rgba(92,110,248,0.2); border: 1px solid rgba(92,110,248,0.4); color: #a5b4fc; font-size: 13px; font-weight: 600; padding: 6px 16px; border-radius: 20px; margin-bottom: 28px; }
+    .hero h1 { font-family: 'Fraunces', serif; font-size: clamp(44px, 8vw, 80px); font-weight: 900; line-height: 1.05; margin-bottom: 24px; letter-spacing: -2px; }
+    .hero h1 em { font-style: italic; color: #ff6b6b; }
+    .hero p { font-size: 18px; color: rgba(255,255,255,0.6); max-width: 500px; margin: 0 auto 44px; line-height: 1.7; }
+    .cta-group { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .btn-hero-primary { padding: 16px 36px; background: #5c6ef8; color: white; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 16px; transition: 0.3s; }
+    .btn-hero-primary:hover { background: #3a4ce0; transform: translateY(-2px); color: white; }
+    .btn-hero-secondary { padding: 16px 36px; background: rgba(255,255,255,0.08); color: white; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 16px; border: 1.5px solid rgba(255,255,255,0.15); transition: 0.3s; }
+    .btn-hero-secondary:hover { background: rgba(255,255,255,0.14); color: white; }
 
-        nav {
-            position: relative;
-            z-index: 10;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 24px 60px;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-        }
-
-        .brand { font-family: 'Fraunces', serif; font-size: 24px; font-weight: 900; color: white; text-decoration: none; }
-        .brand span { color: #ff6b6b; }
-        .nav-btns { display: flex; gap: 12px; }
-
-        .btn-ghost { padding: 10px 22px; border: 1.5px solid rgba(255,255,255,0.25); border-radius: 10px; color: white; text-decoration: none; font-weight: 500; font-size: 14px; transition: 0.2s; background: transparent; }
-        .btn-ghost:hover { border-color: white; background: rgba(255,255,255,0.07); color: white; }
-
-        .btn-solid { padding: 10px 22px; background: #5c6ef8; border: none; border-radius: 10px; color: white; text-decoration: none; font-weight: 600; font-size: 14px; transition: 0.3s; }
-        .btn-solid:hover { background: #3a4ce0; transform: translateY(-1px); color: white; }
-
-        .hero { position: relative; z-index: 5; text-align: center; padding: 120px 20px 80px; flex: 1; }
-
-        .badge { display: inline-block; background: rgba(92,110,248,0.2); border: 1px solid rgba(92,110,248,0.4); color: #a5b4fc; font-size: 13px; font-weight: 600; padding: 6px 16px; border-radius: 20px; margin-bottom: 28px; }
-
-        .hero h1 { font-family: 'Fraunces', serif; font-size: clamp(48px, 8vw, 88px); font-weight: 900; line-height: 1.05; margin-bottom: 24px; letter-spacing: -2px; }
-        .hero h1 em { font-style: italic; color: #ff6b6b; }
-
-        .hero p { font-size: 18px; color: rgba(255,255,255,0.6); max-width: 500px; margin: 0 auto 44px; line-height: 1.7; font-weight: 300; }
-
-        .cta-group { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-
-        .btn-hero-primary { padding: 16px 36px; background: #5c6ef8; color: white; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 16px; transition: 0.3s; }
-        .btn-hero-primary:hover { background: #3a4ce0; transform: translateY(-2px); color: white; }
-
-        .btn-hero-secondary { padding: 16px 36px; background: rgba(255,255,255,0.08); color: white; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 16px; border: 1.5px solid rgba(255,255,255,0.15); transition: 0.3s; }
-        .btn-hero-secondary:hover { background: rgba(255,255,255,0.14); color: white; }
-
-        .features { position: relative; z-index: 5; display: flex; justify-content: center; gap: 20px; padding: 0 40px 60px; flex-wrap: wrap; }
-
-        .feature-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 28px; width: 220px; text-align: center; transition: 0.3s; }
-        .feature-card:hover { background: rgba(92,110,248,0.1); border-color: rgba(92,110,248,0.3); transform: translateY(-4px); }
-        .feature-icon { font-size: 32px; margin-bottom: 12px; }
-        .feature-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
-        .feature-card p { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.6; }
-
-        /* ══ FOOTER ══ */
-        .site-footer {
-            position: relative;
-            z-index: 10;
-            background: rgba(255,255,255,0.04);
-            border-top: 1px solid rgba(255,255,255,0.1);
-            padding: 36px 24px 20px;
-            backdrop-filter: blur(10px);
-        }
-
-        .footer-inner { max-width: 900px; margin: 0 auto; }
-
-        .footer-heading {
-            text-align: center;
-            font-family: 'Fraunces', serif;
-            font-size: 16px;
-            color: #a5b4fc;
-            margin-bottom: 24px;
-            font-weight: 700;
-            letter-spacing: 0.3px;
-        }
-
-        .footer-devs {
-            display: flex;
-            justify-content: center;
-            gap: 24px;
-            flex-wrap: wrap;
-            margin-bottom: 24px;
-        }
-
-        .dev-card {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 14px;
-            padding: 16px 22px;
-            min-width: 240px;
-        }
-
-        .dev-photo {
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            border: 2px solid #5c6ef8;
-            background: #2d2d4e;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            flex-shrink: 0;
-            overflow: hidden;
-        }
-
-        .dev-photo img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
-
-        .dev-name { font-weight: 700; font-size: 15px; color: white; margin-bottom: 3px; }
-        .dev-email { font-size: 12px; color: #a5b4fc; margin-bottom: 3px; }
-        .dev-roll { font-size: 11px; color: #64748b; font-weight: 600; }
-
-        .footer-bottom { text-align: center; font-size: 12px; color: #475569; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 16px; }
-    </style>
-</head>
-<body>
+    .features { position: relative; z-index: 5; display: flex; justify-content: center; gap: 20px; padding: 0 40px 60px; flex-wrap: wrap; }
+    .feature-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 28px; width: 220px; text-align: center; transition: 0.3s; color: white; }
+    .feature-card:hover { background: rgba(92,110,248,0.1); border-color: rgba(92,110,248,0.3); transform: translateY(-4px); }
+    .feature-icon { font-size: 32px; margin-bottom: 12px; }
+    .feature-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+    .feature-card p { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.6; }
+</style>
 
 <div class="bg-orbs">
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
     <div class="orb orb-3"></div>
 </div>
-
-<nav>
-    <a href="/" class="brand">Resume Builder<span></span></a>
-    <div class="nav-btns">
-        <a href="/login/" class="btn-ghost">Login</a>
-        <a href="/register/" class="btn-solid">Get Started</a>
-    </div>
-</nav>
 
 <div class="hero">
     <div class="badge">✦ Free Resume Builder</div>
@@ -166,66 +54,9 @@
 </div>
 
 <div class="features">
-    <div class="feature-card">
-        <div class="feature-icon">🎨</div>
-        <h3>3 Templates</h3>
-        <p>Professional designs crafted to impress recruiters</p>
-    </div>
-    <div class="feature-card">
-        <div class="feature-icon">⚡</div>
-        <h3>Quick & Easy</h3>
-        <p>Fill in your details, preview, and download in minutes</p>
-    </div>
-    <div class="feature-card">
-        <div class="feature-icon">📄</div>
-        <h3>PDF Export</h3>
-        <p>Download a print-ready PDF resume instantly</p>
-    </div>
-    <div class="feature-card">
-        <div class="feature-icon">🔒</div>
-        <h3>Secure</h3>
-        <p>Your data is private and safe with us</p>
-    </div>
+    <div class="feature-card"><div class="feature-icon">🎨</div><h3>3 Templates</h3><p>Professional designs crafted to impress recruiters</p></div>
+    <div class="feature-card"><div class="feature-icon">⚡</div><h3>Quick & Easy</h3><p>Fill in your details, preview, and download in minutes</p></div>
+    <div class="feature-card"><div class="feature-icon">📄</div><h3>PDF Export</h3><p>Download a print-ready PDF resume instantly</p></div>
+    <div class="feature-card"><div class="feature-icon">🔒</div><h3>Secure</h3><p>Your data is private and safe with us</p></div>
 </div>
-
-<!-- FOOTER -->
-<footer class="site-footer">
-    <div class="footer-inner">
-        <div class="footer-heading">This website has been developed by</div>
-
-        <div class="footer-devs">
-
-            <!-- Saumya -->
-            <div class="dev-card">
-                <div class="dev-photo">
-                    
-                    <img src="{% static 'images/saumya.jpg' %}">
-                </div>
-                <div>
-                    <div class="dev-name">Saumya</div>
-                    <div class="dev-email">saumyakumari1512@gmail.com</div>
-                    <div class="dev-roll">Roll No: 235004</div>
-                </div>
-            </div>
-
-            <!-- Aditi -->
-            <div class="dev-card">
-                <div class="dev-photo">
-                    
-                    <img src="{% static 'images/aditi.jpg' %}">
-                </div>
-                <div>
-                    <div class="dev-name">Aditi Srivastava</div>
-                    <div class="dev-email">aditisrivastava051@gmail.com</div>
-                    <div class="dev-roll">Roll No: 235001</div>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="footer-bottom">© 2026 Resume Builder — All rights reserved</div>
-    </div>
-</footer>
-
-</body>
-</html>
+{% endblock %}

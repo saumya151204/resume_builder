@@ -1,152 +1,36 @@
-{% load static %}
 {% extends 'base.html' %}
+{% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Choose Template — Resume Builder</title>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@700;900&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background: #eef0ff;
-            min-height: 100vh;
-            padding: 48px 24px;
-        }
-
-        .page-title {
-            text-align: center;
-            font-family: 'Fraunces', serif;
-            font-size: 36px;
-            font-weight: 900;
-            color: #1a1a2e;
-            margin-bottom: 8px;
-        }
-
-        .page-sub {
-            text-align: center;
-            color: #6b7280;
-            font-size: 15px;
-            margin-bottom: 48px;
-        }
-
-        .templates-grid {
-            display: flex;
-            justify-content: center;
-            gap: 28px;
-            flex-wrap: wrap;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .template-card {
-            background: white;
-            border-radius: 20px;
-            padding: 20px;
-            width: 280px;
-            border: 2px solid #e8eaff;
-            box-shadow: 0 4px 20px rgba(92,110,248,0.08);
-            transition: 0.3s;
-            text-align: center;
-            cursor: pointer;
-        }
-
-        .template-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 16px 40px rgba(92,110,248,0.18);
-            border-color: #5c6ef8;
-        }
-
-        .template-preview {
-            width: 100%;
-            height: 200px;
-            border-radius: 12px;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 48px;
-            border: 1px solid #e8eaff;
-            overflow: hidden;
-            background: #f8f9ff;
-        }
-
-        /* Mini resume preview */
-        .mini-resume {
-            width: 100%;
-            height: 100%;
-            padding: 12px;
-            text-align: left;
-            font-size: 5px;
-            line-height: 1.4;
-        }
-
-        .mini-name { font-size: 8px; font-weight: 800; color: #1a1a2e; margin-bottom: 2px; }
-        .mini-contact { font-size: 5px; color: #6b7280; margin-bottom: 6px; }
-        .mini-section { font-size: 6px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid; padding-bottom: 2px; margin-bottom: 4px; margin-top: 6px; }
-        .mini-text { font-size: 5px; color: #374151; }
-
-        .t1 .mini-section { color: #1a1a2e; border-color: #1a1a2e; }
-        .t2 .mini-section { color: #3498db; border-color: #3498db; }
-        .t3 .mini-name { color: white; }
-        .t3 { background: #1a1a2e; }
-        .t3 .mini-contact { color: #a5b4fc; }
-        .t3 .mini-section { color: #5c6ef8; border-color: #5c6ef8; }
-        .t3 .mini-text { color: #d1d5db; }
-
-        .template-name {
-            font-weight: 700;
-            font-size: 16px;
-            color: #1a1a2e;
-            margin-bottom: 4px;
-        }
-
-        .template-desc {
-            font-size: 12px;
-            color: #9ca3af;
-            margin-bottom: 16px;
-        }
-
-        .badge-tag {
-            display: inline-block;
-            font-size: 11px;
-            font-weight: 600;
-            padding: 3px 10px;
-            border-radius: 20px;
-            margin-bottom: 14px;
-        }
-
-        .badge-blue { background: #eef0ff; color: #5c6ef8; }
-        .badge-green { background: #ecfdf5; color: #10b981; }
-        .badge-dark { background: #1a1a2e; color: #a5b4fc; }
-
-        .select-btn {
-            width: 100%;
-            padding: 11px;
-            border: none;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 14px;
-            cursor: pointer;
-            font-family: 'DM Sans', sans-serif;
-            transition: 0.3s;
-            color: white;
-        }
-
-        .btn-blue { background: #5c6ef8; }
-        .btn-blue:hover { background: #3a4ce0; box-shadow: 0 6px 20px rgba(92,110,248,0.35); }
-
-        .btn-green { background: #10b981; }
-        .btn-green:hover { background: #059669; box-shadow: 0 6px 20px rgba(16,185,129,0.35); }
-
-        .btn-dark { background: #1a1a2e; }
-        .btn-dark:hover { background: #0f0f1a; box-shadow: 0 6px 20px rgba(26,26,46,0.4); }
-    </style>
-</head>
-<body>
+{% block content %}
+<style>
+    .page-title { font-family: 'Fraunces', serif; font-size: 32px; font-weight: 900; color: #1a1a2e; text-align: center; margin-bottom: 8px; }
+    .page-sub { text-align: center; color: #6b7280; font-size: 15px; margin-bottom: 40px; }
+    .templates-grid { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; }
+    .template-card { background: white; border-radius: 20px; padding: 20px; width: 260px; border: 2px solid #e8eaff; box-shadow: 0 4px 20px rgba(92,110,248,0.08); transition: 0.3s; text-align: center; }
+    .template-card:hover { transform: translateY(-8px); box-shadow: 0 16px 40px rgba(92,110,248,0.18); border-color: #5c6ef8; }
+    .template-preview { width: 100%; height: 180px; border-radius: 12px; margin-bottom: 16px; border: 1px solid #e8eaff; overflow: hidden; background: #f8f9ff; display: flex; align-items: center; justify-content: center; }
+    .mini-resume { width: 100%; height: 100%; padding: 10px; text-align: left; }
+    .mini-name { font-size: 8px; font-weight: 800; color: #1a1a2e; margin-bottom: 2px; }
+    .mini-contact { font-size: 5px; color: #6b7280; margin-bottom: 6px; }
+    .mini-section { font-size: 6px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid; padding-bottom: 2px; margin-bottom: 4px; margin-top: 6px; }
+    .mini-text { font-size: 5px; color: #374151; }
+    .t1 .mini-section { color: #1a1a2e; border-color: #1a1a2e; }
+    .t2 .mini-section { color: #2563eb; border-color: #2563eb; }
+    .t3 { background: #0d0d1a; }
+    .t3 .mini-name { color: white; }
+    .t3 .mini-contact { color: #a5b4fc; }
+    .t3 .mini-section { color: #5c6ef8; border-color: #5c6ef8; }
+    .t3 .mini-text { color: #94a3b8; }
+    .template-name { font-weight: 700; font-size: 16px; color: #1a1a2e; margin-bottom: 4px; }
+    .badge-tag { display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; margin-bottom: 12px; }
+    .badge-blue { background: #eef0ff; color: #5c6ef8; }
+    .badge-green { background: #ecfdf5; color: #10b981; }
+    .badge-dark { background: #1a1a2e; color: #a5b4fc; }
+    .select-btn { width: 100%; padding: 11px; border: none; border-radius: 10px; font-weight: 700; font-size: 14px; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: 0.3s; color: white; }
+    .btn-blue { background: #5c6ef8; } .btn-blue:hover { background: #3a4ce0; }
+    .btn-green { background: #10b981; } .btn-green:hover { background: #059669; }
+    .btn-dark { background: #1a1a2e; } .btn-dark:hover { background: #0f0f1a; }
+</style>
 
 <p class="page-title">Choose Your Template</p>
 <p class="page-sub">Pick a design that represents you best</p>
@@ -162,18 +46,17 @@
                 <div class="mini-section">Summary</div>
                 <div class="mini-text">Passionate developer with 3 years experience...</div>
                 <div class="mini-section">Education</div>
-                <div class="mini-text">B.Tech Computer Science — IIT Delhi (2023)</div>
+                <div class="mini-text">B.Tech CS — IIT Delhi (2023)</div>
                 <div class="mini-section">Skills</div>
                 <div class="mini-text">Python • Django • React • SQL</div>
             </div>
         </div>
         <div class="template-name">Classic ATS</div>
         <div class="badge-tag badge-blue">ATS Friendly</div>
-        <div class="template-desc">Clean black & white layout. Perfect for corporate jobs.</div>
         <form method="POST">
             {% csrf_token %}
             <input type="hidden" name="template" value="template1">
-            <button type="submit" class="select-btn btn-blue">Select This Template</button>
+            <button type="submit" class="select-btn btn-blue">Select →</button>
         </form>
     </div>
 
@@ -184,7 +67,7 @@
                 <div class="mini-name">Jane Smith</div>
                 <div class="mini-contact">jane@email.com | +91 8888888888</div>
                 <div class="mini-section">Profile</div>
-                <div class="mini-text">Creative developer skilled in modern web technologies...</div>
+                <div class="mini-text">Creative developer skilled in modern web tech...</div>
                 <div class="mini-section">Education</div>
                 <div class="mini-text">MCA — Delhi University (2024)</div>
                 <div class="mini-section">Experience</div>
@@ -193,11 +76,10 @@
         </div>
         <div class="template-name">Modern Blue</div>
         <div class="badge-tag badge-green">Most Popular</div>
-        <div class="template-desc">Blue accents with a modern section layout. Stands out.</div>
         <form method="POST">
             {% csrf_token %}
             <input type="hidden" name="template" value="template2">
-            <button type="submit" class="select-btn btn-green">Select This Template</button>
+            <button type="submit" class="select-btn btn-green">Select →</button>
         </form>
     </div>
 
@@ -212,20 +94,17 @@
                 <div class="mini-section">Skills</div>
                 <div class="mini-text">JavaScript • Node.js • MongoDB • AWS</div>
                 <div class="mini-section">Projects</div>
-                <div class="mini-text">E-Commerce App • Resume Builder • Chat App</div>
+                <div class="mini-text">E-Commerce • Resume Builder • Chat App</div>
             </div>
         </div>
         <div class="template-name">Dark Elite</div>
         <div class="badge-tag badge-dark">Premium Look</div>
-        <div class="template-desc">Dark professional theme. Makes a bold impression.</div>
         <form method="POST">
             {% csrf_token %}
             <input type="hidden" name="template" value="template3">
-            <button type="submit" class="select-btn btn-dark">Select This Template</button>
+            <button type="submit" class="select-btn btn-dark">Select →</button>
         </form>
     </div>
 
 </div>
-
-</body>
-</html>
+{% endblock %}

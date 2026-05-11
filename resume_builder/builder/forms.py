@@ -3,21 +3,26 @@ from .models import *
 from django.forms import inlineformset_factory
 from .models import Resume, Skill
 
-# Resume Title Form
+
 class ResumeForm(forms.ModelForm):
     class Meta:
         model = Resume
         fields = ['title']
 
 
-# Personal Info Form
 class PersonalInfoForm(forms.ModelForm):
     class Meta:
         model = PersonalInfo
         exclude = ['resume']
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # LinkedIn aur GitHub optional
+        self.fields['linkedin'].required = False
+        self.fields['github'].required = False
+        self.fields['linkedin'].widget.attrs.update({'placeholder': 'https://linkedin.com/in/yourname (optional)'})
+        self.fields['github'].widget.attrs.update({'placeholder': 'https://github.com/yourname (optional)'})
 
-# ================= FORMSETS =================
 
 # Education
 EducationFormSet = inlineformset_factory(
