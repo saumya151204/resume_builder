@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+.logout-box {
+    max-width: 420px;
+    margin: 80px auto;
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    border: 2px solid #e8eaff;
+    box-shadow: 0 10px 30px rgba(92,110,248,0.1);
+}
+
+.logout-icon {
+    font-size: 50px;
+    margin-bottom: 16px;
+}
+
+.logout-title {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 900;
+    margin-bottom: 8px;
+}
+
+.logout-sub {
+    color: #6b7280;
+    font-size: 14px;
+    margin-bottom: 28px;
+}
+
+.logout-btn {
+    display: inline-block;
+    padding: 12px 22px;
+    border-radius: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    color: white;
+    background: #5c6ef8;
+    transition: 0.3s;
+}
+
+.logout-btn:hover {
+    background: #3a4ce0;
+}
+</style>
+
+<div class="logout-box">
+    <div class="logout-icon">👋</div>
+
+    <div class="logout-title">You’ve been logged out</div>
+    <div class="logout-sub">See you again soon!</div>
+
+    <a href="/login/" class="logout-btn">Login Again</a>
+</div>
+
+{% endblock %}
