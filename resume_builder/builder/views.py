@@ -184,3 +184,25 @@ def delete_resume(request, resume_id):
     resume = get_object_or_404(Resume, id=resume_id)
     resume.delete()
     return redirect('dashboard')
+
+
+def contact(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        query_type = request.POST.get('query_type')
+        subject = request.POST.get('subject')
+        message_text = request.POST.get('message')
+
+        ContactQuery.objects.create(
+            name=name,
+            email=email,
+            query_type=query_type,
+            subject=subject,
+            message=message_text
+        )
+
+        messages.success(request, f'Shukriya {name}! Aapki query mil gayi. Hum jald contact karenge.')
+        return redirect('contact')
+
+    return render(request, 'contact.html')

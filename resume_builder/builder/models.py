@@ -83,3 +83,22 @@ class Project(models.Model):
 
     def __str__(self):
         return self.title
+    
+
+class ContactQuery(models.Model):
+    QUERY_TYPES = [
+        ('Technical Issue', 'Technical Issue'),
+        ('Resume Help', 'Resume Help'),
+        ('Account Issue', 'Account Issue'),
+        ('Feature Request', 'Feature Request'),
+        ('Other', 'Other'),
+    ]
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    query_type = models.CharField(max_length=50, choices=QUERY_TYPES, default='Other')
+    subject = models.CharField(max_length=200)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.name} - {self.subject}"
