@@ -28,7 +28,7 @@
     <div class="page-header">
         <div>
             <h1>Contact Us</h1>
-            <p>Koi bhi query ho, hum yahan hain!</p>
+            <p>Have a question? We are here to help!</p>
         </div>
         <a href="/dashboard/" class="back-link"><i class="bi bi-arrow-left"></i> Dashboard</a>
     </div>
@@ -46,7 +46,7 @@
             {% csrf_token %}
             <div class="form-row">
                 <div class="form-group">
-                    <label>Aapka Naam *</label>
+                    <label>Your Name *</label>
                     <input type="text" name="name" placeholder="e.g. Rahul Sharma" required>
                 </div>
                 <div class="form-group">
@@ -58,7 +58,7 @@
             <div class="form-group">
                 <label>Query Type *</label>
                 <select name="query_type" required>
-                    <option value="">-- Select karo --</option>
+                    <option value="">-- Select Query --</option>
                     <option value="Technical Issue">Technical Issue</option>
                     <option value="Resume Help">Resume Help</option>
                     <option value="Account Issue">Account Issue</option>
@@ -69,16 +69,16 @@
 
             <div class="form-group">
                 <label>Subject *</label>
-                <input type="text" name="subject" placeholder="Short mein batao kya problem hai" required>
+                <input type="text" name="subject" placeholder="Describe your issue" required>
             </div>
 
             <div class="form-group">
-                <label>Aapki Query *</label>
-                <textarea name="message" placeholder="Apni problem ya query detail mein likhein..." required></textarea>
+                <label>Your Query *</label>
+                <textarea name="message" placeholder="Describe your issue or query in detail..." required></textarea>
             </div>
 
             <button type="submit" class="btn-submit">
-                <i class="bi bi-send"></i> Query Submit Karo
+                <i class="bi bi-send"></i> Submit Query 
             </button>
         </form>
     </div>

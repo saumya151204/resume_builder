@@ -201,8 +201,7 @@ def contact(request):
             subject=subject,
             message=message_text
         )
-
-        messages.success(request, f'Shukriya {name}! Aapki query mil gayi. Hum jald contact karenge.')
+        messages.success(request, f'Thank you {name}! We have received your query. We will get back to you soon.')
         return redirect('contact')
 
     return render(request, 'contact.html')
