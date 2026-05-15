@@ -34,7 +34,10 @@
         <h1>My Resumes</h1>
         <p>{{ resumes.count }} resume{{ resumes.count|pluralize }} created</p>
     </div>
-    <a href="/create/" class="btn-create"><i class="bi bi-plus-lg"></i> New Resume</a>
+    <div style="display:flex; gap:10px;">
+        <a href="/donate/" class="btn-create" style="background:#10b981;"><i class="bi bi-heart"></i> Donate Us</a>
+        <a href="/create/" class="btn-create"><i class="bi bi-plus-lg"></i> New Resume</a>
+    </div>
 </div>
 
 {% if resumes %}

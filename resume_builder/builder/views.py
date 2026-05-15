@@ -205,3 +205,6 @@ def contact(request):
         return redirect('contact')
 
     return render(request, 'contact.html')
+
+def donate(request):
+    return render(request, 'donate.html')
