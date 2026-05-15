@@ -3,28 +3,159 @@
 
 {% block content %}
 <style>
-    .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 36px; }
-    .page-header h1 { font-family: 'Fraunces', serif; font-size: 32px; font-weight: 900; color: #1a1a2e; }
-    .page-header p { color: #6b7280; font-size: 14px; margin-top: 4px; }
-    .btn-create { background: #5c6ef8; color: white; padding: 12px 24px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 8px; transition: 0.3s; white-space: nowrap; }
-    .btn-create:hover { background: #3a4ce0; transform: translateY(-1px); color: white; }
-    .resume-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
-    .r-card { background: white; border-radius: 18px; padding: 24px; border: 1.5px solid #e8eaff; box-shadow: 0 2px 12px rgba(92,110,248,0.07); transition: 0.3s; position: relative; overflow: hidden; }
-    .r-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #5c6ef8, #ff6b6b); }
-    .r-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(92,110,248,0.14); }
-    .resume-icon { width: 48px; height: 48px; background: #eef0ff; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 14px; }
-    .resume-title { font-weight: 700; font-size: 17px; color: #1a1a2e; margin-bottom: 4px; }
-    .resume-date { font-size: 12px; color: #9ca3af; margin-bottom: 20px; }
-    .card-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-    .action-btn { padding: 7px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; text-decoration: none; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: 0.2s; display: flex; align-items: center; gap: 5px; }
-    .btn-preview { background: #eef0ff; color: #5c6ef8; } .btn-preview:hover { background: #5c6ef8; color: white; }
-    .btn-download { background: #f3e8ff; color: #9333ea; } .btn-download:hover { background: #9333ea; color: white; }
-    .btn-edit { background: #fef3c7; color: #d97706; } .btn-edit:hover { background: #d97706; color: white; }
-    .btn-delete { background: #fee2e2; color: #ef4444; } .btn-delete:hover { background: #ef4444; color: white; }
-    .empty-state { text-align: center; padding: 80px 20px; background: white; border-radius: 20px; border: 2px dashed #c7d2fe; }
-    .empty-icon { font-size: 56px; margin-bottom: 16px; }
-    .empty-state h3 { font-family: 'Fraunces', serif; font-size: 22px; color: #1a1a2e; margin-bottom: 8px; }
-    .empty-state p { color: #9ca3af; font-size: 14px; margin-bottom: 24px; }
+    body {
+        background: #0f172a;
+        color: #e5e7eb;
+    }
+
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 36px;
+    }
+
+    .page-header h1 {
+        font-family: 'Fraunces', serif;
+        font-size: 32px;
+        font-weight: 900;
+        color: #f1f5f9;
+    }
+
+    .page-header p {
+        color: #94a3b8;
+        font-size: 14px;
+        margin-top: 4px;
+    }
+
+    .btn-create {
+        background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        color: white;
+        padding: 12px 22px;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: 0.3s;
+    }
+
+    .btn-create:hover {
+        transform: translateY(-2px);
+        opacity: 0.9;
+    }
+
+    .resume-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 20px;
+    }
+
+    .r-card {
+        background: #1e293b;
+        border-radius: 18px;
+        padding: 22px;
+        border: 1px solid #334155;
+        transition: 0.3s;
+        position: relative;
+    }
+
+    .r-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #6366f1, #ec4899);
+    }
+
+    .r-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+
+    .resume-icon {
+        width: 46px;
+        height: 46px;
+        background: #0f172a;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        margin-bottom: 12px;
+    }
+
+    .resume-title {
+        font-weight: 600;
+        font-size: 16px;
+        color: #f8fafc;
+    }
+
+    .resume-date {
+        font-size: 12px;
+        color: #94a3b8;
+        margin-bottom: 16px;
+    }
+
+    .card-actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .action-btn {
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 500;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        transition: 0.2s;
+    }
+
+    .btn-preview { background: #1d4ed8; color: white; }
+    .btn-preview:hover { background: #2563eb; }
+
+    .btn-download { background: #7c3aed; color: white; }
+    .btn-download:hover { background: #8b5cf6; }
+
+    .btn-edit { background: #d97706; color: white; }
+    .btn-edit:hover { background: #f59e0b; }
+
+    .btn-delete { background: #dc2626; color: white; }
+    .btn-delete:hover { background: #ef4444; }
+
+    .empty-state {
+        text-align: center;
+        padding: 80px 20px;
+        background: #1e293b;
+        border-radius: 18px;
+        border: 1px dashed #475569;
+    }
+
+    .empty-icon {
+        font-size: 50px;
+        margin-bottom: 16px;
+    }
+
+    .empty-state h3 {
+        font-family: 'Fraunces', serif;
+        font-size: 22px;
+        color: #f1f5f9;
+    }
+
+    .empty-state p {
+        color: #94a3b8;
+        font-size: 14px;
+        margin-bottom: 24px;
+    }
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -35,8 +166,12 @@
         <p>{{ resumes.count }} resume{{ resumes.count|pluralize }} created</p>
     </div>
     <div style="display:flex; gap:10px;">
-        <a href="/donate/" class="btn-create" style="background:#10b981;"><i class="bi bi-heart"></i> Donate Us</a>
-        <a href="/create/" class="btn-create"><i class="bi bi-plus-lg"></i> New Resume</a>
+        <a href="/donate/" class="btn-create" style="background: linear-gradient(135deg,#10b981,#059669);">
+            <i class="bi bi-heart"></i> Donate Us
+        </a>
+        <a href="/create/" class="btn-create">
+            <i class="bi bi-plus-lg"></i> New Resume
+        </a>
     </div>
 </div>
 
