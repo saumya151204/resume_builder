@@ -1,6 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
 <meta charset="UTF-8">
 <title>Donate | Resume Builder</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -143,9 +144,7 @@ input {
     margin: 6px 0;
 }
 </style>
-</head>
 
-<body>
 
 <div class="container">
 
@@ -266,6 +265,4 @@ function generateQR() {
 }
 </script>
 
-</body>
-</html>
-
+{% endblock %}
