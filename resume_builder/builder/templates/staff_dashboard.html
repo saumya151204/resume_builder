@@ -1,0 +1,254 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .staff-wrapper { max-width: 1100px; margin: 0 auto; }
+
+    /* Header */
+    .staff-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; }
+    .staff-header h1 { font-family: 'Fraunces', serif; font-size: 30px; font-weight: 900; color: #12142f; }
+    .staff-header p { color: #64748b; font-size: 13px; margin-top: 4px; }
+    .staff-badge { background: #818cf8; color: #1d1e3e; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; }
+
+    /* Stats */
+    .stats-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-bottom: 28px; }
+    .stat-card { background: #1a1a2e; border: 1.5px solid #2d2d4e; border-radius: 14px; padding: 20px 16px; position: relative; overflow: hidden; }
+    .stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+    .stat-card.blue::before { background: #818cf8; }
+    .stat-card.green::before { background: #10b981; }
+    .stat-card.yellow::before { background: #f59e0b; }
+    .stat-card.red::before { background: #ef4444; }
+    .stat-card.purple::before { background: #a855f7; }
+    .stat-label { font-size: 11px; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+    .stat-value { font-size: 28px; font-weight: 900; font-family: 'Fraunces', serif; color: #ffffff; }
+
+    /* Tabs */
+    .tab-bar { display: flex; gap: 8px; margin-bottom: 20px; }
+    .tab-btn { padding: 9px 20px; border-radius: 10px; border: 1.5px solid #2d2d4e; background: #1a1a2e; color: #94a3b8; font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: 0.2s; }
+    .tab-btn.active { background: #818cf8; color: #fff; border-color: #818cf8; }
+
+    /* Table Card */
+    .table-card { background: #1a1a2e; border: 1.5px solid #2d2d4e; border-radius: 16px; overflow: hidden; margin-bottom: 20px; }
+    .table-header { padding: 16px 20px; border-bottom: 1px solid #2d2d4e; display: flex; justify-content: space-between; align-items: center; }
+    .table-header h3 { font-size: 15px; font-weight: 700; color: #ffffff; }
+    table { width: 100%; border-collapse: collapse; }
+    thead th { padding: 10px 16px; font-size: 11px; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #2d2d4e; text-align: left; background: #12122a; }
+    tbody td { padding: 12px 16px; font-size: 13px; color: #e2e8f0; border-bottom: 1px solid #1e1e35; vertical-align: middle; }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover { background: #12122a; }
+
+    /* Badges */
+    .badge { padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+    .badge-blue { background: #1e1b4b; color: #818cf8; }
+    .badge-green { background: #064e3b; color: #6ee7b7; }
+    .badge-yellow { background: #451a03; color: #fbbf24; }
+    .badge-red { background: #450a0a; color: #fca5a5; }
+    .badge-purple { background: #3b0764; color: #d8b4fe; }
+
+    /* Action buttons */
+    .btn-resolve { background: #064e3b; color: #6ee7b7; border: none; padding: 5px 12px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: 0.2s; }
+    .btn-resolve:hover { background: #10b981; color: #fff; }
+    .btn-pending { background: #451a03; color: #fbbf24; border: none; padding: 5px 12px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: 0.2s; }
+    .btn-pending:hover { background: #f59e0b; color: #1a1a2e; }
+
+    /* Tab sections */
+    .tab-section { display: none; }
+    .tab-section.active { display: block; }
+
+    .back-link { color: #818cf8; text-decoration: none; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
+</style>
+
+<div class="staff-wrapper">
+
+    <!-- Header -->
+    <div class="staff-header">
+        <div>
+            <h1>Staff Dashboard</h1>
+            <p>Welcome, {{ request.user.username }} — manage queries and monitor activity</p>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px;">
+            <span class="staff-badge"><i class="bi bi-person-badge"></i> Staff</span>
+            <a href="/dashboard/" class="back-link"><i class="bi bi-arrow-left"></i> My Dashboard</a>
+        </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+        <div class="stat-card blue">
+            <div class="stat-label">Total Users</div>
+            <div class="stat-value">{{ total_users }}</div>
+        </div>
+        <div class="stat-card green">
+            <div class="stat-label">Total Resumes</div>
+            <div class="stat-value">{{ total_resumes }}</div>
+        </div>
+        <div class="stat-card yellow">
+            <div class="stat-label">Total Queries</div>
+            <div class="stat-value">{{ total_queries }}</div>
+        </div>
+        <div class="stat-card red">
+            <div class="stat-label">Pending</div>
+            <div class="stat-value">{{ pending_queries }}</div>
+        </div>
+        <div class="stat-card purple">
+            <div class="stat-label">Resolved</div>
+            <div class="stat-value">{{ resolved_queries }}</div>
+        </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tab-bar">
+        <button class="tab-btn active" onclick="showTab('queries', this)">📩 Contact Queries</button>
+        <button class="tab-btn" onclick="showTab('users', this)">👥 Users</button>
+        <button class="tab-btn" onclick="showTab('resumes', this)">📄 Resumes</button>
+    </div>
+
+    <!-- Queries Tab -->
+    <div class="tab-section active" id="tab-queries">
+        <div class="table-card">
+            <div class="table-header">
+                <h3>📩 All Contact Queries</h3>
+                <span style="color:#64748b; font-size:12px;">{{ total_queries }} total</span>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Type</th>
+                        <th>Subject</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for q in all_queries %}
+                    <tr>
+                        <td><strong>{{ q.name }}</strong></td>
+                        <td style="color:#818cf8;">{{ q.email }}</td>
+                        <td>
+                            {% if q.query_type == 'Technical Issue' %}
+                                <span class="badge badge-red">Technical</span>
+                            {% elif q.query_type == 'Resume Help' %}
+                                <span class="badge badge-blue">Resume</span>
+                            {% elif q.query_type == 'Feature Request' %}
+                                <span class="badge badge-purple">Feature</span>
+                            {% elif q.query_type == 'Account Issue' %}
+                                <span class="badge badge-yellow">Account</span>
+                            {% else %}
+                                <span class="badge badge-green">Other</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ q.subject }}</td>
+                        <td style="color:#64748b;">{{ q.created_at|date:"M d, Y" }}</td>
+                        <td>
+                            {% if q.status == 'Resolved' %}
+                                <span class="badge badge-green">✓ Resolved</span>
+                            {% else %}
+                                <span class="badge badge-yellow">⏳ Pending</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if q.status == 'Pending' %}
+                                <a href="/query/{{ q.id }}/resolve/"><button class="btn-resolve">Mark Resolved</button></a>
+                            {% else %}
+                                <a href="/query/{{ q.id }}/pending/"><button class="btn-pending">Mark Pending</button></a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="7" style="color:#64748b; text-align:center; padding:24px;">No queries yet</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Users Tab -->
+    <div class="tab-section" id="tab-users">
+        <div class="table-card">
+            <div class="table-header">
+                <h3>👥 All Users</h3>
+                <span style="color:#64748b; font-size:12px;">{{ total_users }} total — read only</span>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Joined</th>
+                        <th>Role</th>
+                        <th>Resumes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for u in all_users %}
+                    <tr>
+                        <td><strong>{{ u.username }}</strong></td>
+                        <td style="color:#818cf8;">{{ u.email|default:"—" }}</td>
+                        <td style="color:#64748b;">{{ u.date_joined|date:"M d, Y" }}</td>
+                        <td>
+                            {% if u.is_superuser %}
+                                <span class="badge badge-red">Superuser</span>
+                            {% elif u.is_staff %}
+                                <span class="badge badge-purple">Staff</span>
+                            {% else %}
+                                <span class="badge badge-green">User</span>
+                            {% endif %}
+                        </td>
+                        <td><span class="badge badge-blue">{{ u.resume_set.count }} resumes</span></td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="5" style="color:#64748b; text-align:center; padding:24px;">No users found</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Resumes Tab -->
+    <div class="tab-section" id="tab-resumes">
+        <div class="table-card">
+            <div class="table-header">
+                <h3>📄 All Resumes</h3>
+                <span style="color:#64748b; font-size:12px;">{{ total_resumes }} total — read only</span>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Owner</th>
+                        <th>Template</th>
+                        <th>Created</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for r in all_resumes %}
+                    <tr>
+                        <td><strong>{{ r.title }}</strong></td>
+                        <td><span class="badge badge-blue">{{ r.user.username }}</span></td>
+                        <td style="color:#64748b;">{{ r.template }}</td>
+                        <td style="color:#64748b;">{{ r.created_at|date:"M d, Y" }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="4" style="color:#64748b; text-align:center; padding:24px;">No resumes found</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<script>
+function showTab(name, btn) {
+    document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    btn.classList.add('active');
+}
+</script>
+
+{% endblock %}

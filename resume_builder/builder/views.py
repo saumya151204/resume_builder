@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from .forms import *
@@ -8,6 +9,13 @@ from django.template.loader import get_template
 from django.contrib import messages
 from xhtml2pdf import pisa
 from .models import Resume, PersonalInfo, Education, Experience, Skill, Project
+from django.contrib.admin.views.decorators import staff_member_required
+from django.core.exceptions import PermissionDenied
+from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth.forms import AuthenticationForm
+
+
+
 
 
 def fix_template_path(template):
@@ -46,9 +54,12 @@ def home(request):
 
 @login_required
 def dashboard(request):
+    if request.user.is_superuser:
+        return redirect('admin_dashboard')
+    if request.user.is_staff:
+        return redirect('staff_dashboard')
     resumes = Resume.objects.filter(user=request.user)
     return render(request, 'dashboard.html', {'resumes': resumes})
-
 
 @login_required
 def create_resume(request):
@@ -76,9 +87,47 @@ def select_mode(request, resume_id):
         mode = request.POST.get('mode')
         resume.mode = mode
         resume.save()
-        return redirect('personal_info', resume_id=resume.id)
+        if mode == 'simple':
+            return redirect('simple_form', resume_id=resume.id)
+        else:
+            return redirect('personal_info', resume_id=resume.id)
     return render(request, 'select_mode.html')
 
+@login_required
+def simple_form(request, resume_id):
+    resume = get_object_or_404(Resume, id=resume_id)
+
+    if request.method == 'POST':
+
+        PersonalInfo.objects.update_or_create(
+            resume=resume,
+            defaults={
+                'full_name': request.POST.get('full_name'),
+                'email': request.POST.get('email'),
+                'phone': request.POST.get('phone'),
+                'linkedin': request.POST.get('linkedin'),
+                'github': request.POST.get('github'),
+                'summary': request.POST.get('summary'),
+            }
+        )
+
+        skills = request.POST.getlist('skills[]')
+        projects = request.POST.getlist('projects[]')
+
+        Skill.objects.filter(resume=resume).delete()
+        Project.objects.filter(resume=resume).delete()
+
+        for skill in skills:
+            if skill:
+                Skill.objects.create(resume=resume, name=skill)
+
+        for project in projects:
+            if project:
+                Project.objects.create(resume=resume, title=project)
+
+        return redirect('preview', resume_id=resume.id)
+
+    return render(request, 'simple_form.html', {'resume': resume})
 
 @login_required
 def personal_info(request, resume_id):
@@ -208,3 +257,72 @@ def contact(request):
 
 def donate(request):
     return render(request, 'donate.html')
+
+@login_required
+def admin_dashboard(request):
+    context = {
+        'total_users': User.objects.count(),
+        'total_resumes': Resume.objects.count(),
+        'total_queries': ContactQuery.objects.count(),
+        'recent_queries': ContactQuery.objects.order_by('-created_at')[:10],
+        'recent_users': User.objects.order_by('-date_joined')[:10],
+        'recent_resumes': Resume.objects.order_by('-created_at')[:10],
+    }
+    return render(request, 'admin_dashboard.html', context)
+
+
+@login_required
+def staff_dashboard(request):
+    if not request.user.is_staff :
+        raise PermissionDenied
+
+    context = {
+        'total_users': User.objects.count(),
+        'total_resumes': Resume.objects.count(),
+        'total_queries': ContactQuery.objects.count(),
+        'pending_queries': ContactQuery.objects.filter(status='Pending').count(),
+        'resolved_queries': ContactQuery.objects.filter(status='Resolved').count(),
+        'all_queries': ContactQuery.objects.order_by('-created_at'),
+        'all_users': User.objects.order_by('-date_joined'),
+        'all_resumes': Resume.objects.order_by('-created_at'),
+    }
+    return render(request, 'staff_dashboard.html', context)
+
+
+@login_required
+def mark_resolved(request, query_id):
+    if not request.user.is_staff:
+        raise PermissionDenied
+    query = get_object_or_404(ContactQuery, id=query_id)
+    query.status = 'Resolved'
+    query.save()
+    return redirect('staff_dashboard')
+
+
+@login_required
+def mark_pending(request, query_id):
+    if not request.user.is_staff:
+        raise PermissionDenied
+    query = get_object_or_404(ContactQuery, id=query_id)
+    query.status = 'Pending'
+    query.save()
+    return redirect('staff_dashboard')
+
+def custom_login(request):
+    if request.user.is_authenticated:
+        return redirect('dashboard')
+
+    form = AuthenticationForm(request, data=request.POST or None)
+
+    if request.method == 'POST' and form.is_valid():
+        user = form.get_user()
+        auth_login(request, user)
+
+        if user.is_superuser:
+            return redirect('admin_dashboard')
+        elif user.is_staff:
+            return redirect('staff_dashboard')
+        else:
+            return redirect('dashboard')
+
+    return render(request, 'login.html', {'form': form})

@@ -5,12 +5,19 @@ urlpatterns = [
     path('', views.home, name='home'),
 
     path('dashboard/', views.dashboard, name='dashboard'), 
+    path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'),
+    path('staff-dashboard/', views.staff_dashboard, name='staff_dashboard'),
+
     
     path('register/', views.register, name='register'),
     path('create/', views.create_resume, name='create_resume'),
     path('contact/', views.contact, name='contact'),
     path('donate/', views.donate, name='donate'),
+
+    path('query/<int:query_id>/resolve/', views.mark_resolved, name='mark_resolved'),
+    path('query/<int:query_id>/pending/', views.mark_pending, name='mark_pending'),
     
+    path('simple-form/<int:resume_id>/', views.simple_form, name='simple_form'),
     path('<int:resume_id>/template/', views.select_template, name='select_template'),
     path('<int:resume_id>/mode/', views.select_mode, name='select_mode'),
     path('<int:resume_id>/personal/', views.personal_info, name='personal_info'),

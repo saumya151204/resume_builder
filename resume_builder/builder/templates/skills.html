@@ -1,37 +1,73 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-7 col-lg-6">
 
-        <div class="resume-card p-4">
-            <div class="section-title">⚡ Skills</div>
-            <p class="section-subtitle">What are you good at?</p>
+<div class="step-wrap">
+<div class="step-card">
 
-            <form method="POST">
-                {% csrf_token %}
-                {{ formset.management_form }}
+    <!-- Progress -->
+    <div class="progress">
+        <div class="progress-bar" style="width:80%"></div>
+    </div>
 
-                {% for form in formset %}
-                    <div class="form-section">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                            <strong style="color:#5c6ef8; font-size:13px;">Skill {{ forloop.counter }}</strong>
-                            {% if form.instance.pk %}
-                                <label style="color:#ef4444; font-size:12px; display:flex; align-items:center; gap:4px; cursor:pointer;">
-                                    {{ form.DELETE }} Remove
-                                </label>
-                            {% endif %}
-                        </div>
-                        {{ form.as_p }}
-                    </div>
-                {% endfor %}
+    <!-- Title -->
+    <div class="step-title">
+        <h2> Skills</h2>
+        <p>What are you good at?</p>
+    </div>
 
-                <button type="submit" class="btn btn-custom w-100 mt-2">
-                    Next: Projects →
-                </button>
-            </form>
+    <form method="POST">
+        {% csrf_token %}
+        {{ formset.management_form }}
+
+        {% for form in formset %}
+            <div class="form-section">
+
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                    <strong style="color:#5c6ef8; font-size:13px;">
+                        Skill {{ forloop.counter }}
+                    </strong>
+
+                    {% if form.instance.pk %}
+                        <label style="color:#ef4444; font-size:12px; display:flex; align-items:center; gap:4px; cursor:pointer;">
+                            {{ form.DELETE }} Remove
+                        </label>
+                    {% endif %}
+                </div>
+
+                {{ form.as_p }}
+
+            </div>
+        {% endfor %}
+
+        <!-- Add More Button -->
+        <button type="button" onclick="addForm()" class="btn-back" style="margin-top:10px;">
+            + Add Another Skill
+        </button>
+
+        <!-- Buttons -->
+        <div class="step-actions">
+            <a href="javascript:history.back()" class="btn-back">← Back</a>
+            <button type="submit" class="btn-next">Next → Projects</button>
         </div>
 
-    </div>
+    </form>
+
 </div>
+</div>
+<script>
+function addForm() {
+    const totalForms = document.getElementById('id_form-TOTAL_FORMS');
+    const currentForms = document.querySelectorAll('.form-section').length;
+
+    const newForm = document.querySelector('.form-section').cloneNode(true);
+
+    newForm.innerHTML = newForm.innerHTML.replace(/form-(\d)-/g, `form-${currentForms}-`);
+
+    document.querySelector('form').insertBefore(newForm, document.querySelector('.step-actions'));
+
+    totalForms.value = currentForms + 1;
+}
+</script>
+
 {% endblock %}

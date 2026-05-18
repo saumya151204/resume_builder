@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    body { background: #222750; }
+
+    .form-wrap {
+        display: flex;
+        justify-content: center;
+        padding: 40px 16px;
+    }
+
+    .form-card {
+        width: 100%;
+        max-width: 750px;
+        background: white;
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.05);
+    }
+
+    .form-title {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .form-title h2 {
+        font-family: 'Fraunces', serif;
+        font-size: 30px;
+        font-weight: 900;
+        font-color: #414985
+    }
+
+    .form-group { margin-bottom: 18px; }
+
+    label {
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 6px;
+        display: block;
+    }
+
+    input, textarea {
+        width: 100%;
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px solid #e5e7eb;
+        font-size: 14px;
+    }
+
+    textarea { min-height: 90px; }
+
+    .row {
+        display: flex;
+        gap: 10px;
+    }
+
+    .row input { flex: 1; }
+
+    .add-btn {
+        background: #0e1946;
+        color: white;
+        border: none;
+        padding: 10px 14px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 13px;
+        margin-top: 8px;
+    }
+
+    .remove-btn {
+        background: #0e1946;;
+        color: white;
+        border: none;
+        padding: 6px 10px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 12px;
+    }
+
+    .submit-btn {
+        width: 100%;
+        margin-top: 25px;
+        padding: 14px;
+        background: #0f1438;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-weight: 700;
+    }
+</style>
+
+<div class="form-wrap">
+<div class="form-card">
+
+<div class="form-title">
+    <h2>Build Your Resume</h2>
+</div>
+
+<form method="POST">
+{% csrf_token %}
+
+<!-- BASIC -->
+<div class="form-group">
+    <label>Full Name</label>
+    <input type="text" name="full_name" required>
+</div>
+
+<div class="form-group">
+    <label>Email</label>
+    <input type="email" name="email" required>
+</div>
+
+<div class="form-group">
+    <label>Phone</label>
+    <input type="text" name="phone" required>
+</div>
+
+<!-- OPTIONAL -->
+<div class="form-group">
+    <label>LinkedIn (Optional)</label>
+    <input type="text" name="linkedin">
+</div>
+
+<div class="form-group">
+    <label>GitHub (Optional)</label>
+    <input type="text" name="github">
+</div>
+
+<!-- SKILLS -->
+<div class="form-group">
+    <label>Skills</label>
+    <div id="skills-container">
+        <div class="row">
+            <input type="text" name="skills[]">
+            <button type="button" class="remove-btn" onclick="removeField(this)">Remove this Skill</button>
+        </div>
+    </div>
+    <button type="button" class="add-btn" onclick="addSkill()">+ Add Skill</button>
+</div>
+
+<!-- PROJECTS -->
+<div class="form-group">
+    <label>Projects</label>
+    <div id="projects-container">
+        <div class="row">
+            <input type="text" name="projects[]">
+            <button type="button" class="remove-btn" onclick="removeField(this)">Remove this project</button>
+        </div>
+    </div>
+    <button type="button" class="add-btn" onclick="addProject()">+ Add Project</button>
+</div>
+
+<!-- SUMMARY -->
+<div class="form-group">
+    <label>Summary</label>
+    <textarea name="summary"></textarea>
+</div>
+
+<button class="submit-btn">Save Resume →</button>
+
+</form>
+</div>
+</div>
+
+<script>
+function addSkill() {
+    let container = document.getElementById('skills-container');
+    container.innerHTML += `
+        <div class="row">
+            <input type="text" name="skills[]">
+            <button type="button" class="remove-btn" onclick="removeField(this)">X</button>
+        </div>`;
+}
+
+function addProject() {
+    let container = document.getElementById('projects-container');
+    container.innerHTML += `
+        <div class="row">
+            <input type="text" name="projects[]">
+            <button type="button" class="remove-btn" onclick="removeField(this)">X</button>
+        </div>`;
+}
+
+function removeField(btn) {
+    btn.parentElement.remove();
+}
+</script>
+
+{% endblock %}

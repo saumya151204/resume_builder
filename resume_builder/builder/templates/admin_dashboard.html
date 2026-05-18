@@ -1,0 +1,199 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    * { box-sizing: border-box; }
+
+    .admin-wrapper { max-width: 1100px; margin: 0 auto; }
+
+    /* Header */
+    .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; }
+    .admin-header h1 { font-family: 'Fraunces', serif; font-size: 30px; font-weight: 900; color: #12142f;; }
+    .admin-header p { color: #64748b; font-size: 13px; margin-top: 4px; }
+    .admin-badge { background: #f59e0b; color: #1a1a2e; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; }
+
+    /* Stats Grid */
+    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 28px; }
+    .stat-card { background: #1a1a2e; border: 1.5px solid #2d2d4e; border-radius: 16px; padding: 24px; position: relative; overflow: hidden; }
+    .stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+    .stat-card.blue::before { background: #818cf8; }
+    .stat-card.green::before { background: #10b981; }
+    .stat-card.yellow::before { background: #f59e0b; }
+    .stat-icon { font-size: 28px; margin-bottom: 10px; }
+    .stat-label { font-size: 12px; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+    .stat-value { font-size: 36px; font-weight: 900; font-family: 'Fraunces', serif; color: #ffffff; }
+
+    /* Two column layout */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+
+    /* Tables */
+    .table-card { background: #1a1a2e; border: 1.5px solid #2d2d4e; border-radius: 16px; overflow: hidden; }
+    .table-header { padding: 18px 20px; border-bottom: 1px solid #2d2d4e; display: flex; justify-content: space-between; align-items: center; }
+    .table-header h3 { font-size: 15px; font-weight: 700; color: #ffffff; }
+    .table-header span { font-size: 12px; color: #64748b; }
+    table { width: 100%; border-collapse: collapse; }
+    thead th { padding: 10px 16px; font-size: 11px; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #2d2d4e; text-align: left; }
+    tbody td { padding: 12px 16px; font-size: 13px; color: #e2e8f0; border-bottom: 1px solid #1e1e35; }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover { background: #12122a; }
+
+    /* Badges */
+    .badge { padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+    .badge-blue { background: #1e1b4b; color: #818cf8; }
+    .badge-green { background: #064e3b; color: #6ee7b7; }
+    .badge-yellow { background: #451a03; color: #fbbf24; }
+    .badge-red { background: #450a0a; color: #fca5a5; }
+
+    /* Full width table */
+    .full-table { margin-bottom: 20px; }
+
+    /* Back link */
+    .back-link { color: #818cf8; text-decoration: none; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
+</style>
+
+<div class="admin-wrapper">
+
+    <!-- Header -->
+    <div class="admin-header">
+        <div>
+            <h1>Admin Dashboard</h1>
+            <p>Welcome back, {{ request.user.username }} — here's your overview</p>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px;">
+            <span class="admin-badge">⚡ Admin</span>
+            <a href="/dashboard/" class="back-link"><i class="bi bi-arrow-left"></i> User Dashboard</a>
+        </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+        <div class="stat-card blue">
+            <div class="stat-icon">👥</div>
+            <div class="stat-label">Total Users</div>
+            <div class="stat-value">{{ total_users }}</div>
+        </div>
+        <div class="stat-card green">
+            <div class="stat-icon">📄</div>
+            <div class="stat-label">Total Resumes</div>
+            <div class="stat-value">{{ total_resumes }}</div>
+        </div>
+        <div class="stat-card yellow">
+            <div class="stat-icon">📩</div>
+            <div class="stat-label">Total Queries</div>
+            <div class="stat-value">{{ total_queries }}</div>
+        </div>
+    </div>
+
+    <!-- Recent Users + Recent Resumes -->
+    <div class="two-col">
+
+        <!-- Recent Users -->
+        <div class="table-card">
+            <div class="table-header">
+                <h3>👤 Recent Users</h3>
+                <span>Last 10</span>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Joined</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for u in recent_users %}
+                    <tr>
+                        <td>{{ u.username }}</td>
+                        <td>{{ u.date_joined|date:"M d, Y" }}</td>
+                        <td>
+                            {% if u.is_staff %}
+                                <span class="badge badge-yellow">Admin</span>
+                            {% else %}
+                                <span class="badge badge-green">User</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="3" style="color:#64748b; text-align:center;">No users yet</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Recent Resumes -->
+        <div class="table-card">
+            <div class="table-header">
+                <h3>📄 Recent Resumes</h3>
+                <span>Last 10</span>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>User</th>
+                        <th>Created</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for r in recent_resumes %}
+                    <tr>
+                        <td>{{ r.title }}</td>
+                        <td><span class="badge badge-blue">{{ r.user.username }}</span></td>
+                        <td>{{ r.created_at|date:"M d, Y" }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="3" style="color:#64748b; text-align:center;">No resumes yet</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Contact Queries Full Width -->
+    <div class="table-card full-table">
+        <div class="table-header">
+            <h3>📩 Contact Queries</h3>
+            <span>Last 10</span>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Type</th>
+                    <th>Subject</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for q in recent_queries %}
+                <tr>
+                    <td>{{ q.name }}</td>
+                    <td style="color:#818cf8;">{{ q.email }}</td>
+                    <td>
+                        {% if q.query_type == 'Technical Issue' %}
+                            <span class="badge badge-red">Technical</span>
+                        {% elif q.query_type == 'Resume Help' %}
+                            <span class="badge badge-blue">Resume</span>
+                        {% elif q.query_type == 'Feature Request' %}
+                            <span class="badge badge-yellow">Feature</span>
+                        {% elif q.query_type == 'Account Issue' %}
+                            <span class="badge badge-red">Account</span>
+                        {% else %}
+                            <span class="badge badge-green">Other</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ q.subject }}</td>
+                    <td>{{ q.created_at|date:"M d, Y" }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="5" style="color:#64748b; text-align:center;">No queries yet</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+{% endblock %}

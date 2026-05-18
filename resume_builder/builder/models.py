@@ -93,11 +93,16 @@ class ContactQuery(models.Model):
         ('Feature Request', 'Feature Request'),
         ('Other', 'Other'),
     ]
+    STATUS_CHOICES = [
+        ('Pending', 'Pending'),
+        ('Resolved', 'Resolved'),
+    ]
     name = models.CharField(max_length=100)
     email = models.EmailField()
     query_type = models.CharField(max_length=50, choices=QUERY_TYPES, default='Other')
     subject = models.CharField(max_length=200)
     message = models.TextField()
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending')  
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
